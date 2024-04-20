@@ -1,0 +1,6 @@
+#ifndef WIN32GUI_INTERNAL_H
+#define WIN32GUI_INTERNAL_H
+
+
+
+#endif
