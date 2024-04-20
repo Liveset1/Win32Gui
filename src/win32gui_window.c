@@ -54,7 +54,7 @@ int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
         CW_USEDEFAULT, // Y
         window->size.wid, // Width
         window->size.hei, // Height
-        parentHandle, // Parent Handle
+        NULL, // Parent Handle
         NULL, // HMENU
         wndClassEx.hInstance, // HINSTANCE
         NULL // Additional Data
