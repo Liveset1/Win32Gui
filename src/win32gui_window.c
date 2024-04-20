@@ -47,7 +47,7 @@ int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
         CW_USEDEFAULT, // Y
         window->size.wid, // Width
         window->size.hei, // Height
-        window->parentHandle, // Parent Handle
+        window->parentHandle || NULL, // Parent Handle
         NULL, // HMENU
         wndClassEx.hInstance, // HINSTANCE
         NULL // Additional Data
@@ -83,7 +83,7 @@ Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styl
     if (parentWindowHandle) {
         window->parentHandle = parentWindowHandle; // Set parent handle
     }
-    
+
     if (create_window(window, wndClassEx)) {
         // Set user data for the window handle
         SetWindowLongPtr(window->handle, GWLP_USERDATA, (LONG_PTR)window);
