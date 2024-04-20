@@ -20,6 +20,10 @@ extern "C" {
     #define WIN32GUI_API
 #endif
 
+// =============================================================================
+// Window
+// =============================================================================
+
 typedef struct Win32Window Win32Window;
 typedef struct {
     int wid, hei;
@@ -39,6 +43,8 @@ void set_window_title(Win32Window *window, LPCWSTR title);
 // Events
 
 void window_poll_events();
+
+// =============================================================================
 
 #ifdef __cplusplus
 }
