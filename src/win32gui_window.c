@@ -45,7 +45,7 @@ int create_window(Win32Window *window, WNDCLASS wndClass) {
         parentHandle = window->parentHandle;
     }
 
-    window->handle = CreateWindowW(
+    window->handle = CreateWindow(
         wndClass.lpszClassName, 
         (LPCWSTR)wndClass.lpszClassName, 
         window->styles,
