@@ -80,15 +80,17 @@ Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styl
     window->instance = wndClassEx.hInstance;
     window->size = size;
     window->styles = styles;
-    window->parentHandle = parentWindowHandle; // Set parent handle
-
+    if (parentWindowHandle) {
+        window->parentHandle = parentWindowHandle; // Set parent handle
+    }
+    
     if (create_window(window, wndClassEx)) {
         // Set user data for the window handle
         SetWindowLongPtr(window->handle, GWLP_USERDATA, (LONG_PTR)window);
         return window;
     } else {
         fprintf(stderr, "Error: Failed to create window\n");
-        //free(window); // Free allocated memory
+        free(window); // Free allocated memory
         return NULL;
     }
 }
