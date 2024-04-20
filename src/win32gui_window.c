@@ -47,7 +47,7 @@ int create_window(Win32Window *window, WNDCLASS wndClass) {
 
     window->handle = CreateWindowW(
         wndClass.lpszClassName, 
-        (LPCSTR)wndClass.lpszClassName, 
+        (LPCWSTR)wndClass.lpszClassName, 
         window->styles,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
