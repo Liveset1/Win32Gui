@@ -81,14 +81,14 @@ WNDCLASS new_window_props(const char *window_title) {
     wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
     wc.lpszMenuName = NULL;
     wc.lpszClassName = window_title;
-    
+
     return wc;
 }
 
 Win32Window *initialize_window(WNDCLASS wndClass, Win32Size size, DWORD styles, HWND parentWindowHandle)
 {
     // Register class
-    if (!RegisterClassEx(&wndClass)) {
+    if (!RegisterClass(&wndClass)) {
         fprintf(stderr, "Error: Failed to register window class\n");
         return NULL;
     }
