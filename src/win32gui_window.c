@@ -1,6 +1,9 @@
 #include "win32gui_window.h"
 #include "win32gui_internal.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 struct Win32Window 
 {
     HINSTANCE instance;
@@ -64,13 +67,16 @@ Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styl
     RegisterClassEx(&wndClassEx);
 
     // Initialize window
-    Win32Window *window = {0};
+    Win32Window *window = malloc(sizeof(Win32Window));
+    if (!window) {
+        // Handle allocation failure
+        fprintf(stderr, "Error: Failed to allocate memory for Win32Window\n");
+        exit(EXIT_FAILURE);
+    }
     if (parentWindowHandle) {
         window->parentHandle = parentWindowHandle;
     }
-    if (wndClassEx.hInstance) {
-        window->instance = wndClassEx.hInstance;
-    }
+    window->instance = wndClassEx.hInstance;
     window->size = size;
     window->styles = styles;
 
