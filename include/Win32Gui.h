@@ -25,7 +25,7 @@ extern "C" {
 // =============================================================================
 
 typedef struct Win32Window Win32Window;
-typedef struct {
+typedef struct Win32Size {
     int wid, hei;
     int minWid, minHei;
     int maxWid, maxHei;
