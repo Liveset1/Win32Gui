@@ -56,6 +56,7 @@ int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
     );
 
     if (!window->handle)
+        printf("Failed to create handle");
         return 0;
     
     return 1;
