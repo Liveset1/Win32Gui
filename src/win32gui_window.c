@@ -38,6 +38,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
     // NOTE: ADD A WAY FOR USERS TO ADD THEIR OWN WNDPROC (NOT RECOMMENDED FROM PAST ME)
     wndClassEx.lpfnWndProc = WndProc;
+
+    void *parentHandle = NULL;
+
+    if (window->parentHandle) {
+        parentHandle = window->parentHandle;
+    }
+
     window->handle = CreateWindowEx(
         WS_EX_OVERLAPPEDWINDOW, // Styles
         wndClassEx.lpszClassName, // Class Name
@@ -47,7 +54,7 @@ int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
         CW_USEDEFAULT, // Y
         window->size.wid, // Width
         window->size.hei, // Height
-        window->parentHandle || NULL, // Parent Handle
+        parentHandle, // Parent Handle
         NULL, // HMENU
         wndClassEx.hInstance, // HINSTANCE
         NULL // Additional Data
