@@ -7,7 +7,7 @@
 struct Win32Window 
 {
     HINSTANCE instance;
-    HWND handle;
+    HWND *handle;
     HWND parentHandle;
 
     // App Data
@@ -40,7 +40,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
     // NOTE: ADD A WAY FOR USERS TO ADD THEIR OWN WNDPROC (NOT RECOMMENDED FROM PAST ME)
     wndClassEx.lpfnWndProc = WndProc;
-    window->handle = CreateWindowEx(
+    window->handle = (HWND *) CreateWindowEx(
         WS_EX_OVERLAPPEDWINDOW, // Styles
         wndClassEx.lpszClassName, // Class Name
         wndClassEx.lpszClassName, // Window Title
@@ -56,7 +56,7 @@ int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
     );
 
     if (!window->handle)
-        printf("Failed to create handle");
+        printf("Failed to create handle\n");
         return 0;
     
     return 1;

@@ -1,5 +1,6 @@
 @echo off
-git add ./
+cd ../
+git add .
 git commit -m "Initial"
 git push
 pause
