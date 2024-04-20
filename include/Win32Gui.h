@@ -32,8 +32,8 @@ typedef struct Win32Size {
 } Win32Size;
 
 // Initialization
-WIN32GUI_API WNDCLASSEX new_window_props(const char *window_title);
-WIN32GUI_API Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styles, HWND parentWindowHandle);
+WIN32GUI_API WNDCLASS new_window_props(const char *window_title);
+WIN32GUI_API Win32Window *initialize_window(WNDCLASS wndClassEx, Win32Size size, DWORD styles, HWND parentWindowHandle);
 
 // Configurations
 

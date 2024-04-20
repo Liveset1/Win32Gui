@@ -35,9 +35,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
+int create_window(Win32Window *window, WNDCLASS wndClass) {
     // NOTE: ADD A WAY FOR USERS TO ADD THEIR OWN WNDPROC (NOT RECOMMENDED FROM PAST ME)
-    wndClassEx.lpfnWndProc = WndProc;
+    wndClass.lpfnWndProc = WndProc;
 
     void *parentHandle = NULL;
 
@@ -47,8 +47,8 @@ int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
 
     window->handle = CreateWindowEx(
         WS_EX_OVERLAPPEDWINDOW, // Styles
-        wndClassEx.lpszClassName, // Class Name
-        wndClassEx.lpszClassName, // Window Title
+        wndClass.lpszClassName, // Class Name
+        wndClass.lpszClassName, // Window Title
         window->styles, // Styles
         CW_USEDEFAULT, // X
         CW_USEDEFAULT, // Y
@@ -56,7 +56,7 @@ int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
         window->size.hei, // Height
         NULL, // Parent Handle
         NULL, // HMENU
-        wndClassEx.hInstance, // HINSTANCE
+        wndClass.hInstance, // HINSTANCE
         NULL // Additional Data
     );
 
@@ -68,10 +68,9 @@ int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
     return 1;
 }
 
-WNDCLASSEX new_window_props(const char *window_title) {
-    WNDCLASSEX wc = { sizeof(wc) };
-    
-    wc.cbSize = sizeof(WNDCLASSEX);
+WNDCLASS new_window_props(const char *window_title) {
+    WNDCLASS wc = { sizeof(wc) };
+
     wc.style = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = NULL;
     wc.cbClsExtra = 0;
@@ -82,15 +81,14 @@ WNDCLASSEX new_window_props(const char *window_title) {
     wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
     wc.lpszMenuName = NULL;
     wc.lpszClassName = window_title;
-    wc.hIconSm = NULL;
-
+    
     return wc;
 }
 
-Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styles, HWND parentWindowHandle)
+Win32Window *initialize_window(WNDCLASS wndClass, Win32Size size, DWORD styles, HWND parentWindowHandle)
 {
     // Register class
-    if (!RegisterClassEx(&wndClassEx)) {
+    if (!RegisterClassEx(&wndClass)) {
         fprintf(stderr, "Error: Failed to register window class\n");
         return NULL;
     }
@@ -103,14 +101,14 @@ Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styl
     }
 
     // Initialize Win32Window struct members
-    window->instance = wndClassEx.hInstance;
+    window->instance = wndClass.hInstance;
     window->size = size;
     window->styles = styles;
     if (parentWindowHandle) {
         window->parentHandle = parentWindowHandle; // Set parent handle
     }
 
-    if (create_window(window, wndClassEx)) {
+    if (create_window(window, wndClass)) {
         // Set user data for the window handle
         SetWindowLongPtr(window->handle, GWLP_USERDATA, (LONG_PTR)window);
         return window;
