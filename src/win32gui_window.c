@@ -88,6 +88,7 @@ void set_window_visibility(Win32Window *window, int visible)
 void set_window_title(Win32Window *window, const char *title)
 {
     SetWindowText(window->handle, title);
+    UpdateWindow(window->handle);
 }
 
 // Events
