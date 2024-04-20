@@ -45,19 +45,18 @@ int create_window(Win32Window *window, WNDCLASS wndClass) {
         parentHandle = window->parentHandle;
     }
 
-    window->handle = CreateWindowEx(
-        WS_EX_OVERLAPPEDWINDOW, // Styles
-        wndClass.lpszClassName, // Class Name
-        wndClass.lpszClassName, // Window Title
-        window->styles, // Styles
-        CW_USEDEFAULT, // X
-        CW_USEDEFAULT, // Y
-        window->size.wid, // Width
-        window->size.hei, // Height
-        NULL, // Parent Handle
-        NULL, // HMENU
-        wndClass.hInstance, // HINSTANCE
-        NULL // Additional Data
+    window->handle = CreateWindowW(
+        wndClass.lpszClassName, 
+        wndClass.lpszClassName, 
+        window->styles,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        window->size.wid,
+        window->size.hei,
+        NULL,
+        NULL,
+        wndClass.hInstance,
+        NULL
     );
 
     if (!window->handle) {
