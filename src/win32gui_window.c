@@ -88,7 +88,7 @@ Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styl
         return window;
     } else {
         fprintf(stderr, "Error: Failed to create window\n");
-        free(window); // Free allocated memory
+        //free(window); // Free allocated memory
         return NULL;
     }
 }
