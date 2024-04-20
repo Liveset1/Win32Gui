@@ -18,7 +18,7 @@ Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styl
 // Configurations
 
 void set_window_visibility(Win32Window *window, int visible);
-void set_window_title(Win32Window *window, LPCWSTR title);
+void set_window_title(Win32Window *window, const char * title);
 
 // Events
 
