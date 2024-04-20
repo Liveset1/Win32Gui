@@ -68,6 +68,25 @@ int create_window(Win32Window *window, WNDCLASSEX wndClassEx) {
     return 1;
 }
 
+WNDCLASSEX new_window_props(const char *window_title) {
+    WNDCLASSEX wc = { sizeof(wc) };
+    
+    wc.cbSize = sizeof(WNDCLASSEX);
+    wc.style = CS_HREDRAW | CS_VREDRAW;
+    wc.lpfnWndProc = NULL;
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hInstance = GetModuleHandle(NULL);
+    wc.hIcon = NULL;
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    wc.lpszMenuName = NULL;
+    wc.lpszClassName = window_title;
+    wc.hIconSm = NULL;
+
+    return wc;
+}
+
 Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styles, HWND parentWindowHandle)
 {
     // Register class

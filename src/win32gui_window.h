@@ -13,6 +13,7 @@ typedef struct {
 
 // Initialization
 
+WNDCLASSEX new_window_props(const char *window_title);
 Win32Window *initialize_window(WNDCLASSEX wndClassEx, Win32Size size, DWORD styles, HWND parentWindowHandle);
 
 // Configurations
