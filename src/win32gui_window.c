@@ -49,12 +49,7 @@ Win32AppData *initialize_app_data(wchar_t *window_title, Win32Size size, DWORD s
         return NULL;
     }
 
-    appData->title = strdup(window_title);
-    if (!appData->title) {
-        fprintf(stderr, "Error: Failed to allocate memory for window title\n");
-        free(appData);
-        return NULL;
-    }
+    appData->title = window_title;
     appData->size = size;
     appData->styles = styles;
     appData->wndClass = (WNDCLASS) { sizeof(WNDCLASS) };
