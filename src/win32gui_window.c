@@ -105,7 +105,7 @@ Win32Window *initialize_window(const wchar_t window_title[], Win32AppData *appDa
     }
 
     // Initialize window
-    Win32Window *window = malloc(sizeof(Win32Window));
+    Win32Window *window = (Win32Window *) malloc(sizeof(Win32Window));
     window->appData = appData;
     if (!window) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32Window\n");
