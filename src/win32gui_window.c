@@ -7,7 +7,7 @@
 typedef struct Win32AppData
 {
     WNDCLASS wndClass;
-    char *title;
+    wchar_t *title;
     Win32Size size;
     DWORD styles;
 } Win32AppData;
@@ -42,11 +42,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-Win32AppData *initialize_app_data(char *window_title, Win32Size size, DWORD styles) {
+Win32AppData *initialize_app_data(wchar_t *window_title, Win32Size size, DWORD styles) {
     Win32AppData *appData = malloc(sizeof(Win32AppData));
     if (!appData) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32AppData\n");
-        free(appData);
         return NULL;
     }
 
@@ -99,12 +98,12 @@ int create_window(Win32Window *window, Win32AppData *appData) {
         parentHandle = window->parentHandle;
     }
 
-    wchar_t *class_name = GetWC(appData->wndClass.lpszClassName);
-    wchar_t *title = GetWC(appData->title);
+    // wchar_t *class_name = GetWC(appData->wndClass.lpszClassName);
+    // wchar_t *title = GetWC(appData->title);
 
-    window->handle = CreateWindowW(
-        class_name, // Class Name
-        title, // Title
+    window->handle = CreateWindow(
+        appData->wndClass.lpszClassName, // Class Name
+        appData->title, // Title
         appData->styles, // Styles
         CW_USEDEFAULT, // X
         CW_USEDEFAULT, // Y
@@ -116,8 +115,8 @@ int create_window(Win32Window *window, Win32AppData *appData) {
         NULL
     );
 
-    free(class_name);
-    free(title);
+    // free(class_name);
+    // free(title);
 
     if (!window->handle) {
         printf("Failed to create handle\n");
@@ -136,6 +135,8 @@ Win32Window *initialize_window(Win32AppData *appData, HWND parentWindowHandle)
     // Register class
     if (!RegisterClass(&appData->wndClass)) {
         fprintf(stderr, "Error: Failed to register window class\n");
+        free(appData->title);
+        free(appData);
         return NULL;
     }
 
@@ -177,7 +178,7 @@ void set_window_visibility(Win32Window *window, int visible)
     ShowWindow(window->handle, visible ? SW_SHOW : SW_HIDE);
 }
 
-void set_window_title(Win32Window *window, const char *title)
+void set_window_title(Win32Window *window, wchar_t *title)
 {
     SetWindowText(window->handle, title);
     UpdateWindow(window->handle);
