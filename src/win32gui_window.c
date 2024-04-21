@@ -43,7 +43,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 }
 
 Win32AppData *initialize_app_data(char *window_title, Win32Size size, DWORD styles) {
-    Win32AppData *appData = malloc(sizeof(Win32AppData));
+    Win32AppData *appData = malloc(sizeof(Win32AppData*));
     if (!appData) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32AppData\n");
         free(appData);
@@ -107,7 +107,7 @@ Win32Window *initialize_window(Win32AppData *appData, HWND parentWindowHandle)
     }
 
     // Initialize window
-    Win32Window *window = malloc(sizeof(Win32Window));
+    Win32Window *window = malloc(sizeof(Win32Window*));
     window->appData = appData;
     if (!window) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32Window\n");
