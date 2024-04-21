@@ -44,7 +44,7 @@ void destroy_win32_window(Win32Window *window);
 // Configurations
 
 void set_window_visibility(Win32Window *window, int visible);
-void set_window_title(Win32Window *window,  const wchar_t window_title[]);
+void set_window_title(Win32Window *window, const char *window_title);
 
 // Events
 

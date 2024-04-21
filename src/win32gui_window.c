@@ -142,9 +142,9 @@ void set_window_visibility(Win32Window *window, int visible)
     ShowWindow(window->handle, visible ? SW_SHOW : SW_HIDE);
 }
 
-void set_window_title(Win32Window *window, const wchar_t window_title[])
+void set_window_title(Win32Window *window, const char *window_title)
 {
-    SetWindowText(window->handle, (LPCWSTR) window_title);
+    SetWindowText(window->handle, window_title);
     UpdateWindow(window->handle);
 }
 
