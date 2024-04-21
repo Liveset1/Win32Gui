@@ -24,6 +24,7 @@ extern "C" {
 // Window
 // =============================================================================
 
+typedef struct Win32AppData Win32AppData;
 typedef struct Win32Window Win32Window;
 typedef struct Win32Size {
     int wid, hei;
@@ -32,8 +33,12 @@ typedef struct Win32Size {
 } Win32Size;
 
 // Initialization
-WIN32GUI_API WNDCLASS new_window_props(const char *window_title);
-WIN32GUI_API Win32Window *initialize_window(WNDCLASS wndClassEx, Win32Size size, DWORD styles, HWND parentWindowHandle);
+WIN32GUI_API Win32AppData *initialize_app_data(const char *window_title, Win32Size size, DWORD styles);
+WIN32GUI_API Win32Window *initialize_window(Win32AppData *appData, Win32Size size, DWORD styles, HWND parentWindowHandle);
+
+// Deconstruction
+
+void destroy_win32_window(Win32Window *window);
 
 // Configurations
 

@@ -4,6 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct Win32AppData
+{
+    WNDCLASS wndClass;
+    const char *title;
+    Win32Size size;
+    DWORD styles;
+};
+
 struct Win32Window 
 {
     HINSTANCE instance;
@@ -11,8 +19,7 @@ struct Win32Window
     HWND parentHandle;
 
     // App Data
-    Win32Size size;
-    DWORD styles;
+    Win32AppData *appData;
 };
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -35,27 +42,45 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-int create_window(Win32Window *window, WNDCLASS wndClass) {
-    // NOTE: ADD A WAY FOR USERS TO ADD THEIR OWN WNDPROC (NOT RECOMMENDED FROM PAST ME)
-    wndClass.lpfnWndProc = WndProc;
+Win32AppData *initialize_app_data(const char *window_title, Win32Size size, DWORD styles) {
+    Win32AppData *appData = malloc(sizeof(Win32AppData));
+    if (!appData) {
+        fprintf(stderr, "Error: Failed to allocate memory for Win32AppData\n");
+        return NULL;
+    }
 
-    void *parentHandle = NULL;
+    appData->title = window_title;
+    appData->size = size;
+    appData->styles = styles;
+    appData->wndClass = (WNDCLASS) { sizeof(WNDCLASS) };
+    // WNDCLASS TYPE MEMEBERS
+    appData->wndClass.lpfnWndProc = WndProc;
+    appData->wndClass.hInstance = GetModuleHandle(NULL);
+    appData->wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+    appData->wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    appData->wndClass.lpszClassName = window_title;
+
+    return appData;
+}
+
+int create_window(Win32Window *window, Win32AppData *appData) {
+    void *parentHandle = 0;
 
     if (window->parentHandle) {
         parentHandle = window->parentHandle;
     }
 
-    window->handle = CreateWindow(
-        wndClass.lpszClassName, 
-        (LPCWSTR)wndClass.lpszClassName, 
-        window->styles,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        window->size.wid,
-        window->size.hei,
-        NULL,
-        NULL,
-        wndClass.hInstance,
+    window->handle = CreateWindowW(
+        appData->wndClass.lpszClassName, // Class Name
+        appData->title, // Title
+        appData->styles, // Styles
+        CW_USEDEFAULT, // X
+        CW_USEDEFAULT, // Y
+        appData->size.wid, // Width
+        appData->size.hei, // Height
+        0,
+        parentHandle,
+        appData->wndClass.hInstance,
         NULL
     );
 
@@ -67,54 +92,44 @@ int create_window(Win32Window *window, WNDCLASS wndClass) {
     return 1;
 }
 
-WNDCLASS new_window_props(const char *window_title) {
-    WNDCLASS wc = { sizeof(wc) };
-
-    wc.style = CS_HREDRAW | CS_VREDRAW;
-    wc.lpfnWndProc = NULL;
-    wc.cbClsExtra = 0;
-    wc.cbWndExtra = 0;
-    wc.hInstance = GetModuleHandle(NULL);
-    wc.hIcon = NULL;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    wc.lpszMenuName = NULL;
-    wc.lpszClassName = window_title;
-
-    return wc;
-}
-
-Win32Window *initialize_window(WNDCLASS wndClass, Win32Size size, DWORD styles, HWND parentWindowHandle)
+Win32Window *initialize_window(Win32AppData *appData, HWND parentWindowHandle)
 {
     // Register class
-    if (!RegisterClass(&wndClass)) {
+    if (!RegisterClass(&appData->wndClass)) {
         fprintf(stderr, "Error: Failed to register window class\n");
         return NULL;
     }
 
     // Initialize window
     Win32Window *window = malloc(sizeof(Win32Window));
+    window->appData = appData;
     if (!window) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32Window\n");
         return NULL;
     }
-
-    // Initialize Win32Window struct members
-    window->instance = wndClass.hInstance;
-    window->size = size;
-    window->styles = styles;
+    
     if (parentWindowHandle) {
         window->parentHandle = parentWindowHandle; // Set parent handle
     }
 
-    if (create_window(window, wndClass)) {
+    if (create_window(window, appData)) {
         // Set user data for the window handle
         SetWindowLongPtr(window->handle, GWLP_USERDATA, (LONG_PTR)window);
         return window;
     } else {
         fprintf(stderr, "Error: Failed to create window\n");
-        free(window); // Free allocated memory
+        destroy_win32_window(window);
         return NULL;
+    }
+}
+
+void destroy_win32_window(Win32Window *window)
+{
+    if (window != NULL) {
+        if (window->appData != NULL) {
+            free(window->appData);
+        }
+        free(window);
     }
 }
 
