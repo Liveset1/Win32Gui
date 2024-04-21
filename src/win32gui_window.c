@@ -41,7 +41,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-Win32AppData *initialize_app_data(const wchar_t *class_name, Win32Size size, DWORD styles) {
+Win32AppData *initialize_app_data(const char *class_name, Win32Size size, DWORD styles) {
     Win32AppData *appData = malloc(sizeof(Win32AppData));
     if (!appData) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32AppData\n");
@@ -62,7 +62,7 @@ Win32AppData *initialize_app_data(const wchar_t *class_name, Win32Size size, DWO
 }
 
 
-int create_window(const wchar_t *window_title, Win32Window *window, Win32AppData *appData) {
+int create_window(const char *window_title, Win32Window *window, Win32AppData *appData) {
     void *parentHandle = 0;
 
     if (window->parentHandle) {
@@ -91,7 +91,7 @@ int create_window(const wchar_t *window_title, Win32Window *window, Win32AppData
     return 1;
 }
 
-Win32Window *initialize_window(const wchar_t *window_title, Win32AppData *appData, HWND parentWindowHandle)
+Win32Window *initialize_window(const char *window_title, Win32AppData *appData, HWND parentWindowHandle)
 {
     if (!appData) {
         fprintf(stderr, "Error: AppData pointer is NULL!\n");
