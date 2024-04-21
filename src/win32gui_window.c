@@ -50,7 +50,7 @@ Win32AppData *initialize_app_data(const wchar_t class_name[], Win32Size size, DW
 
     appData->size = size;
     appData->styles = styles;
-    appData->wndClass = (WNDCLASS) { sizeof(WNDCLASS) };
+    appData->wndClass = (WNDCLASS) {  };
     // WNDCLASS TYPE MEMEBERS
     appData->wndClass.lpfnWndProc = WndProc;
     appData->wndClass.hInstance = GetModuleHandle(NULL);
