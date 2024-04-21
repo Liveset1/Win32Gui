@@ -4,15 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Win32AppData
+typedef struct Win32AppData
 {
     WNDCLASS wndClass;
-    const char *title;
+    char *title;
     Win32Size size;
     DWORD styles;
-};
+} Win32AppData;
 
-struct Win32Window 
+typedef struct Win32Window 
 {
     HINSTANCE instance;
     HWND handle;
@@ -20,7 +20,7 @@ struct Win32Window
 
     // App Data
     Win32AppData *appData;
-};
+} Win32Window;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     // Get Window Long Pointer
@@ -42,14 +42,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-Win32AppData *initialize_app_data(const char *window_title, Win32Size size, DWORD styles) {
+Win32AppData *initialize_app_data(char *window_title, Win32Size size, DWORD styles) {
     Win32AppData *appData = malloc(sizeof(Win32AppData));
     if (!appData) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32AppData\n");
+        free(appData);
         return NULL;
     }
 
-    appData->title = window_title;
+    appData->title = strdup(window_title);
+    if (!appData->title) {
+        fprintf(stderr, "Error: Failed to allocate memory for window title\n");
+        free(appData->title);
+        return NULL;
+    }
     appData->size = size;
     appData->styles = styles;
     appData->wndClass = (WNDCLASS) { sizeof(WNDCLASS) };

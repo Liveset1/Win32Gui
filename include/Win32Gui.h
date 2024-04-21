@@ -33,7 +33,7 @@ typedef struct Win32Size {
 } Win32Size;
 
 // Initialization
-WIN32GUI_API Win32AppData *initialize_app_data(const char *window_title, Win32Size size, DWORD styles);
+WIN32GUI_API Win32AppData *initialize_app_data(char *window_title, Win32Size size, DWORD styles);
 WIN32GUI_API Win32Window *initialize_window(Win32AppData *appData, HWND parentWindowHandle);
 
 // Deconstruction
