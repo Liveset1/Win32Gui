@@ -71,8 +71,8 @@ int create_window(Win32Window *window, Win32AppData *appData) {
     }
 
     window->handle = CreateWindowW(
-        appData->wndClass.lpszClassName, // Class Name
-        appData->title, // Title
+        (LPCWSTR)appData->wndClass.lpszClassName, // Class Name
+        (LPCWSTR)appData->title, // Title
         appData->styles, // Styles
         CW_USEDEFAULT, // X
         CW_USEDEFAULT, // Y
@@ -107,7 +107,7 @@ Win32Window *initialize_window(Win32AppData *appData, HWND parentWindowHandle)
         fprintf(stderr, "Error: Failed to allocate memory for Win32Window\n");
         return NULL;
     }
-    
+
     if (parentWindowHandle) {
         window->parentHandle = parentWindowHandle; // Set parent handle
     }
