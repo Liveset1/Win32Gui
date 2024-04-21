@@ -14,4 +14,4 @@ else()
     add_library(${PROJECT_NAME} STATIC ${C_SOURCES} ${C_HEADERS})
 endif()
 
-target_link_libraries(${PROJECT_NAME} PUBLIC user32 gdi32 kernel32)
+target_link_libraries(${PROJECT_NAME} PUBLIC user32.lib gdi32.lib kernel32.lib)

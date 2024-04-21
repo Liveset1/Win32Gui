@@ -43,7 +43,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 }
 
 Win32AppData *initialize_app_data(char *window_title, Win32Size size, DWORD styles) {
-    Win32AppData *appData = malloc(sizeof(Win32AppData*));
+    Win32AppData *appData = malloc(sizeof(Win32AppData));
     if (!appData) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32AppData\n");
         free(appData);
@@ -53,7 +53,7 @@ Win32AppData *initialize_app_data(char *window_title, Win32Size size, DWORD styl
     appData->title = strdup(window_title);
     if (!appData->title) {
         fprintf(stderr, "Error: Failed to allocate memory for window title\n");
-        free(appData->title);
+        free(appData);
         return NULL;
     }
     appData->size = size;
@@ -69,6 +69,29 @@ Win32AppData *initialize_app_data(char *window_title, Win32Size size, DWORD styl
     return appData;
 }
 
+wchar_t* GetWC(const char* c) {
+    if (c == NULL) {
+        return NULL; // Handle null pointer input
+    }
+    
+    size_t len = strlen(c) + 1; // Length including null terminator
+    wchar_t *wideStr = (wchar_t *)malloc(len * sizeof(wchar_t));
+    
+    if (wideStr == NULL) {
+        perror("Memory allocation failed"); // Example error handling
+        return NULL; // Return NULL on memory allocation failure
+    }
+    
+    // Convert multibyte string to wide character string
+    if (mbstowcs(wideStr, c, len) == (size_t)-1) {
+        perror("Conversion error"); // Example error handling
+        free(wideStr); // Free allocated memory
+        return NULL; // Return NULL on conversion failure
+    }
+    
+    return wideStr;
+}
+
 int create_window(Win32Window *window, Win32AppData *appData) {
     void *parentHandle = 0;
 
@@ -76,9 +99,12 @@ int create_window(Win32Window *window, Win32AppData *appData) {
         parentHandle = window->parentHandle;
     }
 
+    wchar_t *class_name = GetWC(appData->wndClass.lpszClassName);
+    wchar_t *title = GetWC(appData->title);
+
     window->handle = CreateWindowW(
-        (LPCWSTR)appData->wndClass.lpszClassName, // Class Name
-        (LPCWSTR)appData->title, // Title
+        class_name, // Class Name
+        title, // Title
         appData->styles, // Styles
         CW_USEDEFAULT, // X
         CW_USEDEFAULT, // Y
@@ -90,6 +116,9 @@ int create_window(Win32Window *window, Win32AppData *appData) {
         NULL
     );
 
+    free(class_name);
+    free(title);
+
     if (!window->handle) {
         printf("Failed to create handle\n");
         return 0;
@@ -100,6 +129,10 @@ int create_window(Win32Window *window, Win32AppData *appData) {
 
 Win32Window *initialize_window(Win32AppData *appData, HWND parentWindowHandle)
 {
+    if (!appData) {
+        fprintf(stderr, "Error: AppData pointer is NULL!\n");
+        return NULL;
+    }
     // Register class
     if (!RegisterClass(&appData->wndClass)) {
         fprintf(stderr, "Error: Failed to register window class\n");
@@ -107,7 +140,7 @@ Win32Window *initialize_window(Win32AppData *appData, HWND parentWindowHandle)
     }
 
     // Initialize window
-    Win32Window *window = malloc(sizeof(Win32Window*));
+    Win32Window *window = malloc(sizeof(Win32Window));
     window->appData = appData;
     if (!window) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32Window\n");
