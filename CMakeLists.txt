@@ -10,6 +10,7 @@ option(WIN32GUI_BUILD_DLL "Build shared library instead of static" OFF)
 
 if(WIN32GUI_BUILD_DLL)
     add_library(${PROJECT_NAME} SHARED ${C_SOURCES} ${C_HEADERS})
+    message("BUILDING AS SHARED LIBRARY")
 else()
     add_library(${PROJECT_NAME} STATIC ${C_SOURCES} ${C_HEADERS})
 endif()
