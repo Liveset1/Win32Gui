@@ -58,7 +58,7 @@ Win32AppData *initialize_app_data(wchar_t *window_title, Win32Size size, DWORD s
     appData->wndClass.hInstance = GetModuleHandle(NULL);
     // appData->wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
     // appData->wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    appData->wndClass.lpszClassName = window_title;
+    appData->wndClass.lpszClassName = "Win32Gui_Window";
 
     return appData;
 }
