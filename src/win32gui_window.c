@@ -41,7 +41,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-Win32AppData *initialize_app_data(Win32Size size, DWORD styles) {
+Win32AppData *initialize_app_data(const wchar_t class_name[], Win32Size size, DWORD styles) {
     Win32AppData *appData = malloc(sizeof(Win32AppData));
     if (!appData) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32AppData\n");
@@ -56,7 +56,7 @@ Win32AppData *initialize_app_data(Win32Size size, DWORD styles) {
     appData->wndClass.hInstance = GetModuleHandle(NULL);
     // appData->wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
     // appData->wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    appData->wndClass.lpszClassName = L"Win32Gui_Window";
+    appData->wndClass.lpszClassName = class_name;
     
     return appData;
 }

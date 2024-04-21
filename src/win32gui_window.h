@@ -14,7 +14,7 @@ typedef struct {
 
 // Initialization
 
-Win32AppData *initialize_app_data(Win32Size size, DWORD styles);
+Win32AppData *initialize_app_data(const wchar_t class_name[], Win32Size size, DWORD styles);
 Win32Window *initialize_window(const wchar_t window_title[], Win32AppData *appData, HWND parentWindowHandle);
 
 // Deconstruction
