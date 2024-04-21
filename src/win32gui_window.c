@@ -62,8 +62,8 @@ Win32AppData *initialize_app_data(char *window_title, Win32Size size, DWORD styl
     // WNDCLASS TYPE MEMEBERS
     appData->wndClass.lpfnWndProc = WndProc;
     appData->wndClass.hInstance = GetModuleHandle(NULL);
-    appData->wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-    appData->wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    // appData->wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+    // appData->wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
     appData->wndClass.lpszClassName = window_title;
 
     return appData;
