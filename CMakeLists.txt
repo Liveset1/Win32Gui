@@ -9,6 +9,7 @@ file(GLOB_RECURSE C_HEADERS "src/*.h")
 option(WIN32GUI_BUILD_DLL "Build shared library instead of static" OFF)
 
 if(WIN32GUI_BUILD_DLL)
+    add_compile_definitions(WIN32GUI_DLL)
     add_library(${PROJECT_NAME} SHARED ${C_SOURCES} ${C_HEADERS})
     message("BUILDING AS SHARED LIBRARY")
 else()
