@@ -34,21 +34,21 @@ typedef struct {
 
 // Initialization
 
-Win32AppData *initialize_app_data(const char *class_name, Win32Size size, DWORD styles);
-Win32Window *initialize_window(const char *window_title, Win32AppData *appData, HWND parentWindowHandle);
+WIN32GUI_API Win32AppData *initialize_app_data(const char *class_name, Win32Size size, DWORD styles);
+WIN32GUI_API Win32Window *initialize_window(const char *window_title, Win32AppData *appData, HWND parentWindowHandle);
 
 // Deconstruction
 
-void destroy_win32_window(Win32Window *window);
+WIN32GUI_API void destroy_win32_window(Win32Window *window);
 
 // Configurations
 
-void set_window_visibility(Win32Window *window, int visible);
-void set_window_title(Win32Window *window,  const char *window_title);
+WIN32GUI_API void set_window_visibility(Win32Window *window, int visible);
+WIN32GUI_API void set_window_title(Win32Window *window,  const char *window_title);
 
 // Events
 
-void window_poll_events();
+WIN32GUI_API void window_poll_events();
 
 // =============================================================================
 
