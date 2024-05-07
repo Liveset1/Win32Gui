@@ -122,6 +122,7 @@ Win32Window *initialize_window(const char *window_title, Win32AppData *appData, 
     if (create_window(window_title, window, appData)) {
         // Set user data for the window handle
         SetWindowLongPtr(window->handle, GWLP_USERDATA, (LONG_PTR)window);
+        window->isRunning = 1;
         return window;
     } else {
         fprintf(stderr, "Error: Failed to create window\n");
