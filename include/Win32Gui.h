@@ -47,7 +47,7 @@ WIN32GUI_API void set_window_visibility(Win32Window *window, int visible);
 WIN32GUI_API void set_window_title(Win32Window *window,  const char *window_title);
 
 // Events
-
+WIN32GUI_API int is_window_running(Win32Window window);
 WIN32GUI_API void window_poll_events();
 
 // =============================================================================

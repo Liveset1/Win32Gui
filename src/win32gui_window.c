@@ -19,6 +19,8 @@ typedef struct Win32Window
 
     // App Data
     Win32AppData *appData;
+
+    int isRunning;
 } Win32Window;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -30,6 +32,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         switch (message) {
             case WM_DESTROY: {
                 PostQuitMessage(0);
+                window->isRunning = 0;
                 break;
             }
             default: {
@@ -146,6 +149,10 @@ void set_window_title(Win32Window *window, const char *window_title)
 {
     SetWindowText(window->handle, window_title);
     UpdateWindow(window->handle);
+}
+
+int is_window_running(Win32Window window) {
+    return window.isRunning;
 }
 
 void window_poll_events() {
