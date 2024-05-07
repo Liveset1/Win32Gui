@@ -152,7 +152,7 @@ void set_window_title(Win32Window *window, const char *window_title)
 }
 
 int is_window_running(Win32Window *window) {
-    return window.isRunning;
+    return window->isRunning;
 }
 
 void window_poll_events() {
