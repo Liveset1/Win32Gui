@@ -27,7 +27,7 @@ void set_window_visibility(Win32Window *window, int visible);
 void set_window_title(Win32Window *window,  const char *window_title);
 
 // Events
-int is_window_running(Win32Window window);
+int is_window_running(Win32Window *window);
 void window_poll_events();
 
 #endif

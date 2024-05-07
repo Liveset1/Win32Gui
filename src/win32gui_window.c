@@ -151,7 +151,7 @@ void set_window_title(Win32Window *window, const char *window_title)
     UpdateWindow(window->handle);
 }
 
-int is_window_running(Win32Window window) {
+int is_window_running(Win32Window *window) {
     return window.isRunning;
 }
 
