@@ -137,14 +137,10 @@ void destroy_win32_window(Win32Window *window)
     if (window != NULL) {
         if (window->appData) {
             free(window->appData);
+            window->appData = NULL;
         }
         free(window);
-
-        if (window == NULL) {
-            printf("WINDOW WAS FREED!\n");
-        } else {
-            printf("WINDOW WAS NOT FREED!\n");
-        }
+        window = NULL;
     }
 }
 
