@@ -134,11 +134,11 @@ Win32Window *initialize_window(const char *window_title, Win32AppData *appData, 
 
 void destroy_win32_window(Win32Window *window)
 {
-    if (window) {
+    if (window != NULL) {
         if (window->appData) {
             free(window->appData);
         }
-        free(&window);
+        free(window);
     }
 }
 
