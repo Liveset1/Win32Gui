@@ -140,7 +140,7 @@ void destroy_win32_window(Win32Window *window)
             window->appData = NULL;
         }
         
-        free(window);
+        free(&window);
         window = NULL;
     }
 }
