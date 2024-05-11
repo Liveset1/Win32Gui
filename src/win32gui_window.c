@@ -31,6 +31,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
         switch (message) {
             case WM_DESTROY: {
+                DestroyWindow(window->handle);
                 PostQuitMessage(0);
                 window->isRunning = 0;
                 break;
