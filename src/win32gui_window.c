@@ -47,7 +47,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 Win32AppData *initialize_app_data(const char *class_name, Win32Size size, DWORD styles) {
     Win32AppData *appData = malloc(sizeof(Win32AppData));
-    if (!appData) {
+    if (appData == NULL) {
         fprintf(stderr, "Error: Failed to allocate memory for Win32AppData\n");
         return NULL;
     }
@@ -139,6 +139,7 @@ void destroy_win32_window(Win32Window *window)
             free(window->appData);
             window->appData = NULL;
         }
+        
         free(window);
         window = NULL;
     }
