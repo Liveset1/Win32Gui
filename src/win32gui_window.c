@@ -138,7 +138,7 @@ void destroy_win32_window(Win32Window *window)
         if (window->appData) {
             free(window->appData);
         }
-        free(window);
+        free(&window);
     }
 }
 
